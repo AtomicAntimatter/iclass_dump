@@ -3,7 +3,7 @@
 # by Sharan ***REMOVED***
 # 1/30/2016
 
-TARGET 				:= iClass_Dump
+TARGET				:= iClass_Dump
 
 LIBS					:= -lftd2xx
 
@@ -23,10 +23,10 @@ BINDIR				:= bin
 CC						:= gcc
 
 CFLAGS				:= -Wall -g
-# CFLAGS 				+= $(PKGS_CFLAGS)
-CFLAGS 				+= -I$(INCDIR)
+# CFLAGS				 += $(PKGS_CFLAGS)
+CFLAGS				+= -I$(INCDIR)
 
-LDFLAGS 			:= $(PKGS_LDFLAGS)
+LDFLAGS			 	:= $(PKGS_LDFLAGS)
 LDFLAGS				+= -L./$(LIBDIR) -Wl,-R./$(LIBDIR) '-Wl,-R$$ORIGIN'
 LDFLAGS				+= $(LIBS)
 
