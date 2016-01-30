@@ -1,5 +1,6 @@
-iClass Reader Tools 
-by brad.antoniewicz@foundstone.com
+iClass Reader Tools
+original code by brad.antoniewicz@foundstone.com
+modified code by ***REMOVED*** 
 -------------------------------------------------
 
 iClass EEPROM Dumper (iclass_eeprom_dump)
@@ -51,4 +52,3 @@ iClass EEPROM Dumper (iclass_eeprom_dump)
  This uses the FTDI-D2XX drivers. Get them from
   http://www.ftdichip.com/Drivers/D2XX.htm
  and follow the readme
-
