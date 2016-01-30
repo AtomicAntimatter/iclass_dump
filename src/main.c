@@ -8,12 +8,12 @@
 
   HID iClass ICSP Pinout From left to right
 
-  Pin 1 of iClass - GND (ground, 0V)                       - GND Pin of FT2232H
+  Pin 1 of iClass - GND (ground, 0V)                      - GND Pin of FT2232H
   Pin 2 of iClass - VDD (5V)                              - No Connect
-  Pin 3 of iClass - VPP (programming mode)                 - 12V Source
-  Pin 4 of iclass - PGD (ICSP data)                        - Pin CN2-7 of FT2232H
+  Pin 3 of iClass - VPP (programming mode)                - 12V Source
+  Pin 4 of iclass - PGD (ICSP data)                       - Pin CN2-7 of FT2232H
   Pin 5 of iClass - PGC (ICSP clock)                      - Pin CN2-10 of FT2232H
-  Pin 6 of iClass - PGM (low voltage programming enable)   - Pin CN2-9 of FT2232H
+  Pin 6 of iClass - PGM (low voltage programming enable)  - Pin CN2-9 of FT2232H
 
   The FT2232H has two channels. The program will only use the first channel.
   The first channel will be Channel A.
