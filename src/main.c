@@ -28,16 +28,16 @@
 
 #define PIN_OUT (PIN_PGD|PIN_PGC|PIN_PGM)
 
-#define PGM_CORE_INST                    0	// 0b0000
-#define PGM_TABLAT_OUT                   2	// 0b0010
-#define PGM_TABLE_READ                   8	// 0b1000
-#define PGM_TABLE_READ_POST_INC          9	// 0b1001
-#define PGM_TABLE_READ_POST_DEC         10	// 0b1010
-#define PGM_TABLE_READ_PRE_INC          11	// 0b1011
-#define PGM_TABLE_WRITE                 12	// 0b1100
-#define PGM_TABLE_WRITE_POST_INC2       13	// 0b1101
-#define PGM_TABLE_WRITE_POST_INC2_PGM   14	// 0b1110
-#define PGM_TABLE_WRITE_PGM             15	// 0b1111
+#define PGM_CORE_INST										0	// 0b0000
+#define PGM_TABLAT_OUT									2	// 0b0010
+#define PGM_TABLE_READ									8	// 0b1000
+#define PGM_TABLE_READ_POST_INC					9	// 0b1001
+#define PGM_TABLE_READ_POST_DEC				 	10	// 0b1010
+#define PGM_TABLE_READ_PRE_INC					11	// 0b1011
+#define PGM_TABLE_WRITE								 	12	// 0b1100
+#define PGM_TABLE_WRITE_POST_INC2			 	13	// 0b1101
+#define PGM_TABLE_WRITE_POST_INC2_PGM	 	14	// 0b1110
+#define PGM_TABLE_WRITE_PGM						 	15	// 0b1111
 
 #define BAUD_RATE	1000000
 
@@ -88,47 +88,47 @@ void ICD_Write(UCHAR cmd, USHORT data)
 	DWORD count;
 	FT_STATUS ftStatus;
 
-  p = tx;
+	p = tx;
 
-  // transmit CMD
-  for( i = 0; i < 4; i++ )
-  {
-    // keep reset high
-    out = PIN_PGM | PIN_PGC;
+	// transmit CMD
+	for( i = 0; i < 4; i++ )
+	{
+		// keep reset high
+		out = PIN_PGM | PIN_PGC;
 
-    // get CMD LSB first
-    if( cmd & 1 )
+		// get CMD LSB first
+		if( cmd & 1 )
 			out |= PIN_PGD;
-    cmd >>= 1;
+		cmd >>= 1;
 
-    // shift out PGD data + PGC
-    *p++ = out;
+		// shift out PGD data + PGC
+		*p++ = out;
 
-    // shift out PGD only - no PGC
-    *p++ = out ^ PIN_PGC;
-  }
+		// shift out PGD only - no PGC
+		*p++ = out ^ PIN_PGC;
+	}
 
-  // transmit payload data
-  for (i = 0; i < 16; i++)
-  {
-    // keep reset high + PGC
-    out = PIN_PGM | PIN_PGC;
-    // get DATA LSB first
-    if (data & 1)
+	// transmit payload data
+	for (i = 0; i < 16; i++)
+	{
+		// keep reset high + PGC
+		out = PIN_PGM | PIN_PGC;
+		// get DATA LSB first
+		if (data & 1)
 			out |= PIN_PGD;
-    data >>= 1;
+		data >>= 1;
 
-    // shift out PGD data + PGC
-    *p++ = out;
+		// shift out PGD data + PGC
+		*p++ = out;
 
-    // shift out PGD only - no PGC
-    *p++ = out ^ PIN_PGC;
-  }
+		// shift out PGD only - no PGC
+		*p++ = out ^ PIN_PGC;
+	}
 
-  // all lines to GND except of reset line
-  *p++ = PIN_PGM;
+	// all lines to GND except of reset line
+	*p++ = PIN_PGM;
 
-  ftStatus = FT_Write(ftHandle, &tx, sizeof (tx), &count);
+	ftStatus = FT_Write(ftHandle, &tx, sizeof (tx), &count);
 	report(ftStatus, "FT_Write", "");
 
 	ftStatus = FT_Read(ftHandle, &tx, sizeof (tx), &count);
@@ -142,41 +142,41 @@ int TABLAT_Read()
 	DWORD count;
 	FT_STATUS ftStatus;
 
-  p = tx;
-  cmd = PGM_TABLAT_OUT;
+	p = tx;
+	cmd = PGM_TABLAT_OUT;
 
 	// transmit CMD
-  for( i = 0; i < (4 + 16); i++ )
-  {
-    // keep reset high
-    out = PIN_PGM | PIN_PGC;
+	for( i = 0; i < (4 + 16); i++ )
+	{
+		// keep reset high
+		out = PIN_PGM | PIN_PGC;
 
 		// get CMD LSB first
-    if( cmd & 1 )
+		if( cmd & 1 )
 			out |= PIN_PGD;
-    cmd >>= 1;
+		cmd >>= 1;
 
 		// shift out PGD data + PGC
-    *p++ = out;
+		*p++ = out;
 
 		// shift out PGD only - no PGC
-    *p++ = out ^ PIN_PGC;
-  }
-
-  *p++ = PIN_PGM;
-
-  ftStatus = FT_Write(ftHandle, &tx, sizeof (tx), &count);
-	report(ftStatus, "FT_Write", "");
-
-  ftStatus = FT_Read(ftHandle, &tx, sizeof (tx), &count);
-	report(ftStatus, "FT_Read", "");
-
-  out = 0;
-  for (i = 0; i < 8; i++) {
-    out = (out >> 1) | ((tx[i * 2 + (1 + 2 * 12)] & PIN_PGD) ? 0x80 : 0);
+		*p++ = out ^ PIN_PGC;
 	}
 
-  return out;
+	*p++ = PIN_PGM;
+
+	ftStatus = FT_Write(ftHandle, &tx, sizeof (tx), &count);
+	report(ftStatus, "FT_Write", "");
+
+	ftStatus = FT_Read(ftHandle, &tx, sizeof (tx), &count);
+	report(ftStatus, "FT_Read", "");
+
+	out = 0;
+	for (i = 0; i < 8; i++) {
+		out = (out >> 1) | ((tx[i * 2 + (1 + 2 * 12)] & PIN_PGD) ? 0x80 : 0);
+	}
+
+	return out;
 }
 
 int main(int argc, char *argv[]) {
@@ -232,31 +232,31 @@ int main(int argc, char *argv[]) {
 	ICD_Write(PGM_CORE_INST, 0x0E00);
 
 	// Copy working register to FSR0H (MOV WREG)
-  printf("MOVWF FSR0H - Writing PGM_CORE_INST 0x6EEA\n");
-  ICD_Write(PGM_CORE_INST, 0x6EEA);
+	printf("MOVWF FSR0H - Writing PGM_CORE_INST 0x6EEA\n");
+	ICD_Write(PGM_CORE_INST, 0x6EEA);
 
 	// Set FSR0L to 0, increments FSR0H automatically
 
 	// Copy 0 to working register
 	printf("MOVLW <ADDR> - Writing PGM_CORE_INST 0x0E00\n");
-  ICD_Write(PGM_CORE_INST, 0x0E00 );
+	ICD_Write(PGM_CORE_INST, 0x0E00 );
 
-	// Copy working register to FSR0L
+	// Copy working register to FSR1L
 	printf("MOVWF FSR0L - Writing PGM_CORE_INST 0x6EE9\n");
-  ICD_Write(PGM_CORE_INST, 0x6EE9);
+	ICD_Write(PGM_CORE_INST, 0x6EE9);
 
 	printf("Dumping... (takes ~10 seconds)\n");
 
 	// Increment FSR0
 	for( i = 1; i < REGS; i++ ) {
-    ICD_Write(PGM_CORE_INST, 0x50EE);
-    ICD_Write(PGM_CORE_INST, 0x6EF5);
+		ICD_Write(PGM_CORE_INST, 0x50EE);
+		ICD_Write(PGM_CORE_INST, 0x6EF5);
 
 		eeprom_data[i] = TABLAT_Read();
 	}
 
-  printf("Full EEPROM Dump:\n");
-  printf("-------------------------------------------------------\n");
+	printf("Full EEPROM Dump:\n");
+	printf("-------------------------------------------------------\n");
 
 	for( i = 1; i < REGS; i++ ) {
 		printf("%02x ", eeprom_data[i]);
