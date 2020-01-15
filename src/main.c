@@ -188,7 +188,7 @@ int main(int argc, char *argv[]) {
 
   printf("iCTs EEPROM Dumper\n");
   printf("Original code by: brad.antoniewicz@foundstone.com\n");
-  printf("Modified code by: ***REMOVED***\n");
+  printf("Modified code by: sharan ***REMOVED***\n");
   printf("------------------------------------------------\n");
 
   printf("Connecting to FTDI Device...\n");
